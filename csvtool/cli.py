@@ -78,17 +78,18 @@ def main(argv: Optional[list[str]] = None) -> None:
                 print(f"[csvtool] Ошибка фильтрации: {exc}", file=sys.stderr)
                 sys.exit(2)
 
+    # TODO здесь можно добавить обработку новых команд (до агрегации)
+
     # Агрегация или вывод строк
     if args.aggregate:
         try:
-            rows = apply_aggregate(rows, args.aggregate)
+            result = apply_aggregate(rows, args.aggregate)
+            render_aggregate(result)
         except ValueError as exc:
             print(f"[csvtool] Ошибка агрегации: {exc}", file=sys.stderr)
             sys.exit(2)
-
-    # TODO здесь можно добавить обработку новых команд (до вывода строк)
-
-    render_rows(rows)
+    else:
+        render_rows(rows)
 
 if __name__ == "__main__":
     main()
